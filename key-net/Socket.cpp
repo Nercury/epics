@@ -222,6 +222,22 @@ fun_res Socket::BeginAcceptAndReceive(int32_t no_data_timeout_ms, int32_t buf_si
 	return fun_ok();
 }
 
+fun_res Socket::BeginConnect(std::string address, uint16_t port, std::function<void (std::shared_ptr<Socket>)> callback)
+{
+	if (is_failed)
+		return fun_error("Cannot connect on failed socket");
+
+	if (was_connected)
+		return fun_error("Can not connect on already connected socket");
+
+#ifdef WIN32
+	auto connect_ex = this->ex_functions.get_connect_ex();
+	return cndc->BeginConnect(connect_ex, this->shared_from_this(), address, port, callback);
+#else
+	return fun_error("connect is not implemented");
+#endif
+}
+
 fun_res Socket::BeginSend(char * buffer, int buffer_size, std::function<void (std::shared_ptr<Socket>)> callback)
 {
 	if (is_failed)

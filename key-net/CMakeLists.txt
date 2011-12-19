@@ -15,6 +15,8 @@ add_library(key-net STATIC
 	WinWsaSocketFunctions.cpp
 	WinSharedSocketIo.h
 	WinSharedSocketIo.cpp
+	WinSharedSocketCnDc.h
+	WinSharedSocketCnDc.cpp
 	Socket.h
 	Socket.cpp
 	)

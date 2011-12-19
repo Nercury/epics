@@ -28,8 +28,8 @@ int main(int argc, char* argv[])
 {
 	setAppPath(*argv);
 
-	char * send_buffer = new char[50];
-	char * receive_buffer = new char[1024];
+	char send_buffer[50];
+	char receive_buffer[1024];
 
 	Socket s;
 	if (s.Bind(90).ok()) {
@@ -72,10 +72,10 @@ int main(int argc, char* argv[])
 				std::cout << "Data sent." << endl;
 			});
 
-			s.BeginAcceptAndReceive(1, 5, accept_fun);
+			s.BeginAcceptAndReceive(500, 5, accept_fun);
 		};
 
-		s.BeginAcceptAndReceive(1, 5, accept_fun);
+		s.BeginAcceptAndReceive(500, 5, accept_fun);
 
 		system("PAUSE");
 
@@ -84,8 +84,8 @@ int main(int argc, char* argv[])
 		system("PAUSE");
 	}
 
-	delete [] send_buffer;
-	delete [] receive_buffer;
+	//delete [] send_buffer;
+	//delete [] receive_buffer;
 
 	return 0;
 }

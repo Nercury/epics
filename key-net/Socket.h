@@ -7,6 +7,7 @@
 #	include <key-net/WinCompletionPort.hpp>
 #	include <key-net/WinWsaSocketFunctions.h>
 #	include <key-net/WinSharedSocketIo.h>
+#   include <key-net/WinSharedSocketCnDc.h>
 #	include <key-net/win_socket_errors.h>
 #	include <key-common/shared_instance.hpp>
 #endif
@@ -47,6 +48,7 @@ namespace key {
 		WinCompletionPort<internal::OVERLAPPEDACCEPT> accept_completion;
 		WinCompletionPort<internal::OVERLAPPEDACCEPTANDRECEIVE> accept_and_receive_completion;
 		shared_instance<WinSharedSocketIo> io;
+		shared_instance<WinSharedSocketCnDc> cndc;
 		WinWsaSocketFunctions ex_functions;
 #endif
 		bool is_bound; // bind was used on this
@@ -74,6 +76,8 @@ namespace key {
 		fun_res BeginAcceptAndReceive(int32_t no_data_timeout_ms, int32_t buf_size, std::function<void (uint32_t bytes_transferred, char * bytes, std::shared_ptr<Socket>)> callback);
 		fun_res BeginSend(char * buffer, int buffer_size, std::function<void (std::shared_ptr<Socket>)> callback);
 		fun_res BeginReceive(char * buffer, int buffer_size, std::function<void (char * buffer, int buffer_size, uint64_t bytes_transferred, std::shared_ptr<Socket>)> callback);
+		fun_res BeginConnect(std::string address, uint16_t port, std::function<void (std::shared_ptr<Socket>)> callback);
+		
 		inline KEY_SOCKET GetHandle() { return this->socket_handle; }
 		fun_res Close();
 	};
